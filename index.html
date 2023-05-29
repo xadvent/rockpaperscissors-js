@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        const OPTIONS = ["Rock", "Paper", "Scissors"];
+        const FAILURES = ["You throw up a sign that looks like a combination of all three signs...", "You throw a sign and then change it after you see the computers sign...", "..."];
+
+
+        function getComputerChoice() {
+            random = Math.floor(Math.random() * OPTIONS.length);
+            choice = OPTIONS[random];
+            return choice;
+        }
+
+        /* get Player Choice */
+        function getPlayerChoice() {
+            answer = prompt("Rock Paper or Scissors?\nWhat are you throwing?")
+            if (answer.toLowerCase() === "rock") {
+                return "Rock";
+            } else if (answer.toLowerCase() === "paper") {
+                return "Paper";
+            } else if (answer.toLowerCase() === "scissors") {
+                return "Scissors";
+            } else {
+                accident = FAILURES[Math.floor(Math.random() * FAILURES.length)];
+                console.log(accident);
+                return undefined;
+            }
+        }
+        
+
+        /* compare answers  */
+        function playRound(player, computer) {
+            if (player === computer) {
+                return "Tie! No winner.";
+            }else if (player === "Rock" && computer === "Scissors" || player === "Paper" && computer === "Rock" || player === "Scissors" && computer === "Paper") {
+                return `You win! ${player} beats ${computer}!`;
+            } else {
+                return `You lose... ${player} loses to ${computer}.`;
+                }
+
+        }
+
+        /* put functions into a game that can play best of 5 */
+        function game() {
+            wins = 0;
+            losses = 0;
+            console.log("Welcome to the backrooms...")
+            keepgoing = true;
+            while (keepgoing = true){
+                round = playRound(getPlayerChoice(), getComputerChoice());
+                console.log(round);
+                if (round.includes("beats")) {
+                    ++wins;
+                    console.log(`You have ${wins} wins and ${losses} losses`);
+                    if (wins >= 5) {
+                        keepgoing = false;
+                        return console.log("You have won against the machine...\nYou and the rest alive can rest in peace...")
+                    };
+                } else if (round.includes("loses")) {
+                    ++losses;
+                    console.log(`You have ${wins} wins and ${losses} losses`);
+                    if (losses >= 5) {
+                        keepgoing = false;
+                        return console.log(`The machine has won.\nYou have lost...`)
+                    };
+                };
+            }
+
+        }
+        
+        game();
+
+    </script>
+    
+</body>
+</html>
