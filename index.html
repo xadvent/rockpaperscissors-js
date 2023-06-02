@@ -4,21 +4,40 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" src="style.css">
+    <link rel="stylesheet" href="style.css">
     <title>Rock Paper Scissors</title>
 </head>
 <body>
-    <div class="container">
-        <button class="btn" id="Rock">Rock</button>
-        <button class="btn" id="Paper">Paper</button>
-        <button class="btn" id="Scissors">Scissors</button>
+    <div class="page">
+    <div class="header">
+        <h1>Rock Paper Scissors: First to 5!</h1>
+        <ul>
+            <li><a href="https://github.com/xadvent/rockpaperscissors-js">GitHub</a></li>
+            <li><a href="https://www.linkedin.com/in/piercestrutt/">LinkedIn</a></li>
+        </ul>
     </div>
-    <div class="showResults"></div>
+        <div class="container">
+            <button class="btn">Rock</button>
+            <button class="btn">Paper</button>
+            <button class="btn">Scissors</button>
+        </div>
+        <div class="winLoss">
+            <div class="wins"></div>
+            <div class="losses"></div>
+        </div>
+        <div class="showResults"></div>
     
-    
+    <div class="spacefooter">
+        <h3><a href="https://youtu.be/dQw4w9WgXcQ">secret link...</a></h3>
+    </div>
+    <div class="footer">
+        <p>Did you find the secret?</p>
+    </div>
+    </div>
     
     
     <script>
+        const OPTIONS = ["Rock", "Paper", "Scissors"];
         function getComputerChoice() {
             random = Math.floor(Math.random() * OPTIONS.length);
             choice = OPTIONS[random];
@@ -29,51 +48,78 @@
             if (player === computer)  {
                 results.textContent= "Tie! No winner."; 
                 resultsDiv.appendChild(results);
-                return;
+                return 'tie';
             }
             switch (player) {
-                case "Rock":
-                    results.textContent =  (computer === "Scissors") ? `You win! ${player} beats ${computer}!`: `You lose... ${player} loses to ${computer}`
-                    resultsDiv.appendChild(results)
+                case "Rock":    
+                    if (computer === 'Scissors')  {
+                        results.textContent = `You win! ${player} beats ${computer}!`; resultsDiv.appendChild(results); return 'win'  
+                        } else if (computer ==="Paper") results.textContent = `You lose... ${player} loses to ${computer}`; resultsDiv.appendChild(results); return 'loss'
                     break;
                 case "Paper":    
-                    results.textContent = (computer === "Rock") ? `You win! ${player} beats ${computer}!`: `You lose... ${player} loses to ${computer}`
-                    resultsDiv.appendChild(results)
+                    if (computer === 'Rock')  {
+                        results.textContent = `You win! ${player} beats ${computer}!`; resultsDiv.appendChild(results); return 'win'  
+                        } else if (computer==="Scissors") results.textContent = `You lose... ${player} loses to ${computer}`; resultsDiv.appendChild(results); return 'loss'
                     break;
                 case "Scissors":
-                    results.textContent = (computer === "Paper") ? `You win! ${player} beats ${computer}!`: `You lose... ${player} loses to ${computer}`
-                    resultsDiv.appendChild(results)
-                    break;
+                if (computer === 'Paper')  {
+                        results.textContent = `You win! ${player} beats ${computer}!`; resultsDiv.appendChild(results); return 'win'  
+                        } else if (computer === 'Rock') results.textContent = `You lose... ${player} loses to ${computer}`; resultsDiv.appendChild(results); return 'loss'
+                        break;
                 }
             }
-                
+        
+
+
+        const winDiv = document.querySelector('.wins')
+        const lossDiv = document.querySelector('.losses')
+        let wins = 0
+        let losses = 0
+        
         const listOfButtons = document.querySelectorAll('button')
-        listOfButtons.forEach(element => element.addEventListener('click', () => secondPlayRound(element.textContent, getComputerChoice())))
-                
-                
-        const resultsDiv = document.querySelector('.showResults')
-                
+        
+        
+        
+        const resultsDiv = document.querySelector('.showResults');
         const results = document.createElement('h3')
         results.classList.add('results')
-               
-                
-                
-        const FAILURES = ["You throw up a sign that looks like a combination of all three signs...", "You throw a sign and then change it after you see the computers sign...", "...", "Before you know it, both of your hands are flying upwards in an effort to throw a sign... They collide and cause a sharp pain..."];
-        const OPTIONS = ["Rock", "Paper", "Scissors"];
-                
-
-
-
-
-
-
-
-
-
-
-
-        /* These fx are older... Keeping to show improvement and increase motivation.
+        
     
+
+        listOfButtons.forEach(element => element.addEventListener('click', () => {
+            const assignment = secondPlayRound(element.textContent, getComputerChoice())
+            winLoss(assignment);
+            if (wins >= 5) {
+                winDiv.textContent = ''; lossDiv.textContent =''; results.textContent = ''; alert("You have Won!!!!!! Good Job!\nWOW!");
+            } else if (losses >= 5) {
+                winDiv.textContent = ''; lossDiv.textContent =''; results.textContent ='';  alert("You have LOST!!!!!! HAHAHHAHAHAHAH!");
+            }
+        }))
+        
+        
+        
+        const winLoss = function(either) {
+            if (either === 'win') {
+                ++wins; 
+            } else if (either === 'loss') ++losses; 
+
+            winDiv.textContent = `Player: ${wins}`;
+            lossDiv.textContent = `Computer: ${losses}`;
+            
+        }
+        
+        
+        
+        
+        
+        
+        
+        
+        /* These fx are older... Keeping to show improvement and increase motivation.
+        
+        const FAILURES = ["You throw up a sign that looks like a combination of all three signs...", 
+        "You throw a sign and then change it after you see the computers sign...", "...", 
+        "Before you know it, both of your hands are flying upwards in an effort to throw a sign... They collide and cause a sharp pain..."];
         function getPlayerChoice(choice) {
             answer = prompt("Rock Paper or Scissors?\nWhat are you throwing?");
             if (answer.toLowerCase() === "rock") {
@@ -88,9 +134,6 @@
                 return undefined;
             }
         }
-        
-
-         
         function playRound(player, computer) {
             if (player === computer) {
                 return "Tie! No winner.";
@@ -101,9 +144,6 @@
                 }
 
         }
-
-
-         
         function game() {
             wins = 0;
             losses = 0;
@@ -124,10 +164,7 @@
                         return console.log(`The machine has won.\nYou have lost...`);
                     };
                 };
-            }
-    
-        
-        
+            } 
                 */
     </script>
     
