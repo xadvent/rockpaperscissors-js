@@ -33,7 +33,9 @@ html, body {
     justify-content: space-evenly;
     align-items: center;
     height: 200px;
-    background-color: #0E0B16;
+    background-color: grey;
+    border-bottom: #0E0B16;
+    border-style: solid;
 }
 
 .winLoss {
