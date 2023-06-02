@@ -4,23 +4,78 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" src="style.css">
     <title>Rock Paper Scissors</title>
 </head>
 <body>
+    <div class="container">
+        <button class="btn" id="Rock">Rock</button>
+        <button class="btn" id="Paper">Paper</button>
+        <button class="btn" id="Scissors">Scissors</button>
+    </div>
+    <div class="showResults"></div>
+    
+    
+    
+    
     <script>
-        const OPTIONS = ["Rock", "Paper", "Scissors"];
-        const FAILURES = ["You throw up a sign that looks like a combination of all three signs...", "You throw a sign and then change it after you see the computers sign...", "..."];
-
-
         function getComputerChoice() {
             random = Math.floor(Math.random() * OPTIONS.length);
             choice = OPTIONS[random];
             return choice;
         }
+        
+        function secondPlayRound(player, computer) {
+            if (player === computer)  {
+                results.textContent= "Tie! No winner."; 
+                resultsDiv.appendChild(results);
+                return;
+            }
+            switch (player) {
+                case "Rock":
+                    results.textContent =  (computer === "Scissors") ? `You win! ${player} beats ${computer}!`: `You lose... ${player} loses to ${computer}`
+                    resultsDiv.appendChild(results)
+                    break;
+                case "Paper":    
+                    results.textContent = (computer === "Rock") ? `You win! ${player} beats ${computer}!`: `You lose... ${player} loses to ${computer}`
+                    resultsDiv.appendChild(results)
+                    break;
+                case "Scissors":
+                    results.textContent = (computer === "Paper") ? `You win! ${player} beats ${computer}!`: `You lose... ${player} loses to ${computer}`
+                    resultsDiv.appendChild(results)
+                    break;
+                }
+            }
+                
+        const listOfButtons = document.querySelectorAll('button')
+        listOfButtons.forEach(element => element.addEventListener('click', () => secondPlayRound(element.textContent, getComputerChoice())))
+                
+                
+        const resultsDiv = document.querySelector('.showResults')
+                
+        const results = document.createElement('h3')
+        results.classList.add('results')
+               
+                
+                
+        const FAILURES = ["You throw up a sign that looks like a combination of all three signs...", "You throw a sign and then change it after you see the computers sign...", "...", "Before you know it, both of your hands are flying upwards in an effort to throw a sign... They collide and cause a sharp pain..."];
+        const OPTIONS = ["Rock", "Paper", "Scissors"];
+                
 
-        /* get Player Choice */
-        function getPlayerChoice() {
-            answer = prompt("Rock Paper or Scissors?\nWhat are you throwing?")
+
+
+
+
+
+
+
+
+
+
+        /* These fx are older... Keeping to show improvement and increase motivation.
+    
+        function getPlayerChoice(choice) {
+            answer = prompt("Rock Paper or Scissors?\nWhat are you throwing?");
             if (answer.toLowerCase() === "rock") {
                 return "Rock";
             } else if (answer.toLowerCase() === "paper") {
@@ -35,7 +90,7 @@
         }
         
 
-        /* compare answers  */
+         
         function playRound(player, computer) {
             if (player === computer) {
                 return "Tie! No winner.";
@@ -47,36 +102,33 @@
 
         }
 
-        /* put functions into a game that can play best of 5 */
+
+         
         function game() {
             wins = 0;
             losses = 0;
             console.log("Welcome to the backrooms...")
-            keepgoing = true;
-            while (keepgoing = true){
                 round = playRound(getPlayerChoice(), getComputerChoice());
                 console.log(round);
                 if (round.includes("beats")) {
                     ++wins;
                     console.log(`You have ${wins} wins and ${losses} losses`);
                     if (wins >= 5) {
-                        keepgoing = false;
+                        keepGoing = false;
                         return console.log("You have won against the machine...\nYou and the rest alive can rest in peace...")
                     };
                 } else if (round.includes("loses")) {
-                    ++losses;
                     console.log(`You have ${wins} wins and ${losses} losses`);
                     if (losses >= 5) {
-                        keepgoing = false;
-                        return console.log(`The machine has won.\nYou have lost...`)
+                        keepGoing = false;
+                        return console.log(`The machine has won.\nYou have lost...`);
                     };
                 };
             }
-
-        }
+    
         
-        game();
-
+        
+                */
     </script>
     
 </body>
